@@ -43,7 +43,8 @@ class SignIn extends Component {
         <form onSubmit={this.handleSubmit}> 
           <FormInput 
             name="email" 
-            type="email" 
+            type="email"
+            autoComplete="on" 
             handleChange={this.handleChange} 
             value={this.state.email} 
             label="email"
@@ -51,7 +52,8 @@ class SignIn extends Component {
           />
           <FormInput 
             name="password" 
-            type="password" 
+            type="password"
+            autoComplete="on" 
             handleChange={this.handleChange} 
             value={this.state.password} 
             label="password"
