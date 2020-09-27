@@ -1,28 +1,40 @@
 import React from 'react';
 import './cart-dropdown.styles.scss';
 
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { selectCartItems } from '../../redux/cart/cart.selectors';
+import { toggleCartHidden } from '../../redux/cart/cart.actions';
 
 import CustomButton from '../custom-button/custom-button.component';
 import CartItem from '../cart-item/cart-item.component';
 
-const mapStateToProps = state => ({
-  cartItems: selectCartItems(state)
+const mapStateToProps = createStructuredSelector({
+  cartItems: selectCartItems
 })
 
-const CartDropdown = ({ cartItems }) => {
+const mapDispatchToProps = dispatch => ({
+  toggleCartHidden: () => dispatch(toggleCartHidden())
+})
+
+const CartDropdown = ({ cartItems, toggleCartHidden, history }) => {
   return (
     <div className='cart-dropdown'>
       <div className='cart-items'>
-        {
-          cartItems.map(cartItem =>
-            <CartItem key={cartItem.id} item={cartItem} />)
-        }
+      {
+        cartItems.length ?
+        cartItems.map(cartItem => (<CartItem key={cartItem.id} item={cartItem} />))
+        :
+        <span className='empty-message'>Your cart is expty.</span>
+      }
       </div>
-      <CustomButton>CHECKOUT</CustomButton>
+      <CustomButton onClick={() => {
+        history.push('/checkout');
+        toggleCartHidden();
+      }}>CHECKOUT</CustomButton>
     </div>
   );
 }
 
-export default connect(mapStateToProps)(CartDropdown);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CartDropdown));
