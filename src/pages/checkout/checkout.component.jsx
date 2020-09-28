@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selectors';
 
-import CheckoutItem from '../../components/checkout-item/checkout-item.component'
+import CheckoutItem from '../../components/checkout-item/checkout-item.component';
+import StripeCheckoutButton from '../../components/stripe-button/stripe-button.component';
 
 const mapStateToProps = createStructuredSelector({
   cartItems: selectCartItems,
@@ -39,6 +40,14 @@ const CheckoutPage = ({ cartItems, total }) => {
       }
       <div className='total'>
         <span>TOTAL: ${total}</span>
+      </div>
+      <div className='stripe-container'>
+        <StripeCheckoutButton price={total} />
+      </div>
+      <div className='test-warning'>
+        *Please use the following test credit card(visa) for payments* <br />
+        4242 4242 4242 4242 - Exp: Any future date - CVV: Any 3 digits <br />
+        Link <a href='https://stripe.com/docs/testing#cards'>Here</a> for more type of cards to test.
       </div>
     </div>
   )
